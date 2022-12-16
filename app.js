@@ -1,19 +1,28 @@
 const express = require('express');
 const { default: mongoose } = require('mongoose');
-const User = require('./databaseModel');
+const path = require('path')
+
 
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({urlencoded: true}))
 
+const user = require('./controller/userController') 
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set(express.static(path.join(__dirname , 'public')));
 
 
-app.get('/', (req, res) => {
-res.render('userLogin')
+
+
+
+app.get('/signup', (req, res) => {
+res.render('usersignup')
 })
+
+app.post('/signup', user.newUser)
 
 
 
